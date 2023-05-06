@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lingduo's National Park Route Planner</title>
+</head>
+<body>
+    <h1>National Park Route Planner</h1>
+    <form action="/route_map" method="post">
+        <!-- <label for="start_location">Starting address:</label> -->
+        <label for="origin">Starting address:</label>
+        <!-- <input type="text" name="start_location" id="start_location" required> -->
+        <input type="text" name="origin" id="start_location" required>
+        <br>
+        <label for="destination_park">Destination park:</label>
+        <input type="text" id="destination_park" name="destination_park" required>
+        <br>
+        <button type="submit">Find route</button>
+    </form>
+</body>
+</html>

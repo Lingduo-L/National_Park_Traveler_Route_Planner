@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Map</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .left {
+            width: 70%;
+        }
+
+        .right {
+            width: 25%;
+            background-color: #f0f0f0;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <h1>Lingduo's National Park Traveler Route Planner</h1>
+    <div class="container">
+        <div class="left">
+            <form method="POST" action="{{ url_for('route_map') }}">
+                <label for="origin">Starting point (e.g.: 3301 S Hoover St, Los Angeles, CA 90007):</label>
+                <input type="text" id="origin" name="origin" required><br><br>
+                <label for="destination_park">Destination park (e.g.: Joshua Tree National Park):</label>
+                <input type="text" id="destination_park" name="destination_park" required><br><br>
+                <label for="mode">Transportation mode:</label>
+                <select name="mode" id="mode">
+                    <option value="driving">Driving</option>
+                    <option value="walking">Walking</option>
+                    <option value="bicycling">Bicycling</option>
+                    <option value="transit">Transit</option>
+                </select>
+                <br><br>
+                <input type="submit" value="Generate Route Map">
+            </form>
+
+            {% if map_html %}
+            <h2>Route Map</h2>
+            <p>Here is the generated route map:</p>
+            {{ map_html | safe }}
+            <p>Estimated travel time: {{ travel_time }}</p>
+            {% endif %}
+
+            <p><a href="/">Back to start</a></p>
+            </div>
+            <div class="right">
+                {% if park_weather %}
+                <h2>Park Weather</h2>
+                <p>Here is the next 7-days weather forecast for the park:</p>
+                <ul>
+                    {% for i in range(0, park_weather_length, 2) %}
+                    <li>DAY {{i//2}}-{{i//2 + 1}}:</li>
+                    <li>{{ park_weather.next_week_weather[i] }}</li>
+                    {% if i + 1 < park_weather_length %}
+                    <li>{{ park_weather.next_week_weather[i + 1] }}</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>  
+                {% endif %}
+
+                {% if park_info %}
+                <hr>
+                <h2>Park Information</h2>
+                <p><a href="{{ park_info.url }}" target="_blank">{{ park_info.name }}</a></p>
+                <p>{{ park_info.description }}</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </body>
+</html>
