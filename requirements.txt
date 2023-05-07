@@ -1,5 +1,5 @@
 Flask==2.1.0
-googlemaps==4.6.0
+googlemaps
 python-dotenv==0.19.2
 folium==0.12.1
 polyline==1.4.0
